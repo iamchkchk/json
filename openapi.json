@@ -1,37 +1,42 @@
 {
   "openapi": "3.0.0",
-  
-  "info" : {
+  "info": {
     "title": "票券申報API V1",
     "description": "票券申報API",
-    "version": "v1",
+    "version": "v1"
   },
-  
   "servers": [
     {
       "url": "http://localhost:8081/v1",
-      "description" : "本機開發環境"
+      "description": "本機開發環境"
     },
     {
       "url": "https://suptech-t.tdcc.com.tw/api/v1",
-      "description" : "業演環境"
+      "description": "業演環境"
     },
     {
       "url": "https://suptech.tdcc.com.tw/api/v1",
-      "description" : "正式環境"
+      "description": "正式環境"
     }
   ],
-  
-  "paths" : {
+  "paths": {
     "/oauth/token": {
       "post": {
         "summary": "取得存取碼",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-        ], #end parameters
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -47,12 +52,12 @@
                 "required": [
                   "grant_types"
                 ]
-              } 
+              }
             }
           }
-        }, #end requestBody
+        },
         "responses": {
-          "200" : {
+          "200": {
             "description": "認證成功後回傳 存取碼 及 存取種類 及 有效時間 等資訊",
             "content": {
               "application/json": {
@@ -70,32 +75,33 @@
                     "expires_in": {
                       "type": "integer",
                       "example": "3600"
-                    },
+                    }
                   }
                 }
               }
             }
-          }, #end 200
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
+          }
+        }
       }
     },
-    
     "/oauth/check_token": {
       "post": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "檢查存取碼",
         "parameters": [
@@ -104,18 +110,25 @@
             "name": "token",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "string"
             },
             "description": "核發的 access_token"
           },
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-        ], #end parameters
-        
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          }
+        ],
         "responses": {
-          "200" : {
+          "200": {
             "description": "認證成功後回傳 token 效期及效力等資訊",
             "content": {
               "application/json": {
@@ -137,43 +150,51 @@
                     "client_id": {
                       "type": "string",
                       "example": "0991234567"
-                    },
+                    }
                   }
                 }
               }
             }
-          }, #end 200
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
+          }
+        }
       }
     },
-    
     "/oauth/revocation": {
       "post": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "撤銷存取碼",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-        ], #end parameters
-        
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          }
+        ],
         "responses": {
-          "200" : {
+          "200": {
             "description": "成功後回傳完成訊息",
             "content": {
               "application/json": {
@@ -187,49 +208,72 @@
                     "message": {
                       "type": "string",
                       "example": "access token revoke success"
-                    },
+                    }
                   }
                 }
               }
             }
-          }, #end 200
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
+          }
+        }
       }
     },
-    
     "/decl/forms/status/insts/{inst_code}": {
       "get": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "查詢報表狀態",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-          "$ref": "#/components/parameters/path_inst_code",
-          "$ref": "#/components/parameters/query_rpt_code",
-          "$ref": "#/components/parameters/query_rpt_cycle",
-          "$ref": "#/components/parameters/query_rpt_year",
-          "$ref": "#/components/parameters/query_rpt_num",
-          "$ref": "#/components/parameters/offsetParam",
-          "$ref": "#/components/parameters/limitParam"
-        ], #end parameters
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          },
+          {
+            "$ref": "#/components/parameters/path_inst_code"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_code"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_cycle"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_year"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_num"
+          },
+          {
+            "$ref": "#/components/parameters/offsetParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          }
+        ],
         "responses": {
-          "200" : {
+          "200": {
             "description": "資料傳遞內容透過 JWE 加密格式封裝, 未加密的PAYLOAD資料模型請參考 : [查詢報表申報狀態的查詢結果 : /decl/form/status : GET_RESPONSE_PAYLOAD]",
             "content": {
               "text/plain": {
@@ -238,44 +282,61 @@
                 }
               }
             }
-          }, #end 200
-          "201" : {
+          },
+          "201": {
             "$ref": "#/components/responses/Created"
-          }, #end 201
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
-      }, #end get method
+          }
+        }
+      }
     },
-    
     "/decl/forms/{rpt_code}/years/{rpt_year}/nums/{rpt_num}/insts/{inst_code}": {
       "get": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "查詢報表申報資料",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-          "$ref": "#/components/parameters/path_rpt_code",
-          "$ref": "#/components/parameters/path_rpt_year",
-          "$ref": "#/components/parameters/path_rpt_num",
-          "$ref": "#/components/parameters/path_inst_code"
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_code"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_year"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_num"
+          },
+          {
+            "$ref": "#/components/parameters/path_inst_code"
+          }
         ],
         "responses": {
-          "200" : {
+          "200": {
             "description": "資料傳遞內容透過 JWE 加密格式封裝, 未加密的PAYLOAD資料模型請參考 : [查詢報表資料的查詢結果 : GET_RESPONSE_PAYLOAD]",
             "content": {
               "text/plain": {
@@ -284,41 +345,57 @@
                 }
               }
             }
-          }, #end 200
-          "201" : {
+          },
+          "201": {
             "$ref": "#/components/responses/Created"
-          }, #end 201
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
-      },#end get method
-      
+          }
+        }
+      },
       "post": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "上傳報表申報資料",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-          "$ref": "#/components/parameters/path_rpt_code",
-          "$ref": "#/components/parameters/path_rpt_year",
-          "$ref": "#/components/parameters/path_rpt_num",
-          "$ref": "#/components/parameters/path_inst_code"
-        ], #end parameters
-        
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_code"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_year"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_num"
+          },
+          {
+            "$ref": "#/components/parameters/path_inst_code"
+          }
+        ],
         "requestBody": {
           "description": "資料傳遞內容透過 JWE 加密格式封裝, 未加密的PAYLOAD資料模型請參考 : [上傳報表資料的需求內容 : POST_REQUEST_PAYLOAD]",
           "required": true,
@@ -326,13 +403,12 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/JWE_REQUEST"
-              } 
+              }
             }
           }
-        }, #end requestBody
-        
+        },
         "responses": {
-          "200" : {
+          "200": {
             "description": "資料傳遞內容透過 JWE 加密格式封裝, 未加密的PAYLOAD資料模型請參考 : [上傳報表資料的處理結果 : POST_RESPONSE_PAYLOAD]",
             "content": {
               "text/plain": {
@@ -341,44 +417,58 @@
                 }
               }
             }
-          }, #end 200
-          "201" : {
+          },
+          "201": {
             "$ref": "#/components/responses/Created"
-          }, #end 201
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        } #end responses
-      }, #end post method
-      
-    }, #end /decl/form/{rpt_code}/year/{rpt_year}/num/{rpt_num}/insts/{inst_id}
-    
+          }
+        }
+      }
+    },
     "/meta/forms/{rpt_code}": {
       "get": {
         "security": [
-          "oAuth2ClientCredentials": []
+          {
+            "oAuth2ClientCredentials": []
+          }
         ],
         "summary": "查詢報表欄位定義",
         "parameters": [
-          "$ref": "#/components/parameters/header_Xuser_id",
-          "$ref": "#/components/parameters/header_Xinst_id",
-          "$ref": "#/components/parameters/header_TxnInitDateTime",
-          "$ref": "#/components/parameters/header_Xclient_type",
-          "$ref": "#/components/parameters/path_rpt_code",
-          "$ref": "#/components/parameters/query_rpt_year",
-          "$ref": "#/components/parameters/query_rpt_num"
-        ], #end parameters
+          {
+            "$ref": "#/components/parameters/header_Xuser_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xinst_id"
+          },
+          {
+            "$ref": "#/components/parameters/header_TxnInitDateTime"
+          },
+          {
+            "$ref": "#/components/parameters/header_Xclient_type"
+          },
+          {
+            "$ref": "#/components/parameters/path_rpt_code"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_year"
+          },
+          {
+            "$ref": "#/components/parameters/query_rpt_num"
+          }
+        ],
         "responses": {
-          "200" : {
+          "200": {
             "description": "資料傳遞內容透過 JWE 加密格式封裝, 未加密的PAYLOAD資料模型請參考 : [查詢報表欄位定義的查詢結果 : GET_REQUEST_PAYLOAD]",
             "content": {
               "text/plain": {
@@ -387,99 +477,110 @@
                 }
               }
             }
-          }, #end 200
-          "201" : {
+          },
+          "201": {
             "$ref": "#/components/responses/Created"
-          }, #end 201
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          }, #end 400
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          }, #end 401
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }, #end 404
+          },
           "5XX": {
             "$ref": "#/components/responses/UnexpectedError"
-          }, #end 50X
-        }, #end responses
-      }, #end get method
-    }, #end /meta/form/{rpt_code}
-    
-  }, #end paths
-
+          }
+        }
+      }
+    }
+  },
   "components": {
-    
     "parameters": {
-      
-      "header_Xuser_id" : {
+      "header_Xuser_id": {
         "in": "header",
         "name": "X-UserId",
         "schema": {
-          "type": "string",
+          "type": "string"
         },
         "required": true,
         "description": "Client 使用者代號"
       },
-      
-      "header_Xinst_id" : {
+      "header_Xinst_id": {
         "in": "header",
         "name": "X-InstId",
         "schema": {
-          "type": "string",
+          "type": "string"
         },
         "required": true,
         "description": "Client 使用者機構代號"
       },
-      
-      "header_TxnInitDateTime" : {
+      "header_TxnInitDateTime": {
         "in": "header",
         "name": "X-TxnInitDateTime",
         "schema": {
-          "type": "string",
+          "type": "string"
         },
         "required": true,
         "description": "交易發起日期時間 yyyyMMdd'T'HHmmssSSS'Z'"
       },
-      
-      "header_Xclient_type" : {
+      "header_Xclient_type": {
         "in": "header",
         "name": "X-ClientType",
         "schema": {
           "type": "string",
           "enum": [
-            'PCC'
+            "PCC"
           ]
         },
         "required": false,
         "description": "Client 種類"
       },
-      
       "path_rpt_code": {
         "in": "path",
         "name": "rpt_code",
         "schema": {
           "type": "string",
           "enum": [
-            'apici002','apici201','apici210'
-            ,'apici215','apici216','apici217'
-            ,'apici225','apici226','apici240'
-            ,'apici281','apici302','apici303'
-            ,'apici304','apici320','apici330'
-            ,'apici343','apici345','apici395'
-            ,'apici405','apici407','apici410'
-            ,'apici415','apici420','apici425'
-            ,'apici430','apici450','apici451'
-            ,'apici601','apici625','apici701'
-            ,'apici705','apici901'
-
+            "apici002",
+            "apici201",
+            "apici210",
+            "apici215",
+            "apici216",
+            "apici217",
+            "apici225",
+            "apici226",
+            "apici240",
+            "apici281",
+            "apici302",
+            "apici303",
+            "apici304",
+            "apici320",
+            "apici330",
+            "apici343",
+            "apici345",
+            "apici395",
+            "apici405",
+            "apici407",
+            "apici410",
+            "apici415",
+            "apici420",
+            "apici425",
+            "apici430",
+            "apici450",
+            "apici451",
+            "apici601",
+            "apici625",
+            "apici701",
+            "apici705",
+            "apici901"
           ]
         },
         "required": true,
         "description": "報表代號"
       },
-      
       "path_rpt_year": {
         "in": "path",
         "name": "rpt_year",
@@ -489,22 +590,29 @@
         "required": true,
         "description": "申報年度"
       },
-      
       "path_rpt_num": {
         "in": "path",
         "name": "rpt_num",
         "schema": {
           "type": "string",
           "enum": [
-            '001','002','003','004'
-            ,'005','006','007','008'
-            ,'009','010','011','012'
+            "001",
+            "002",
+            "003",
+            "004",
+            "005",
+            "006",
+            "007",
+            "008",
+            "009",
+            "010",
+            "011",
+            "012"
           ]
         },
         "required": true,
         "description": "申報期數"
       },
-      
       "path_inst_code": {
         "in": "path",
         "name": "inst_code",
@@ -514,42 +622,64 @@
         "required": true,
         "description": "機構代碼"
       },
-      
       "query_rpt_code": {
         "in": "query",
         "name": "rpt_code",
         "schema": {
           "type": "string",
           "enum": [
-            'APICI002','APICI201','APICI210'
-            ,'APICI215','APICI216','APICI217'
-            ,'APICI225','APICI226','APICI240'
-            ,'APICI281','APICI302','APICI303'
-            ,'APICI304','APICI320','APICI330'
-            ,'APICI343','APICI345','APICI395'
-            ,'APICI405','APICI407','APICI410'
-            ,'APICI415','APICI420','APICI425'
-            ,'APICI430','APICI450','APICI451'
-            ,'APICI601','APICI625','APICI701'
-            ,'APICI705','APICI901'
+            "APICI002",
+            "APICI201",
+            "APICI210",
+            "APICI215",
+            "APICI216",
+            "APICI217",
+            "APICI225",
+            "APICI226",
+            "APICI240",
+            "APICI281",
+            "APICI302",
+            "APICI303",
+            "APICI304",
+            "APICI320",
+            "APICI330",
+            "APICI343",
+            "APICI345",
+            "APICI395",
+            "APICI405",
+            "APICI407",
+            "APICI410",
+            "APICI415",
+            "APICI420",
+            "APICI425",
+            "APICI430",
+            "APICI450",
+            "APICI451",
+            "APICI601",
+            "APICI625",
+            "APICI701",
+            "APICI705",
+            "APICI901"
           ]
         },
         "description": "報表代碼",
         "example": "APICI002"
       },
-      
       "query_rpt_cycle": {
         "in": "query",
         "name": "rpt_cycle",
         "schema": {
           "type": "string",
           "enum": [
-            'M','Q','H','Y','O'
+            "M",
+            "Q",
+            "H",
+            "Y",
+            "O"
           ]
         },
         "description": "報表周期"
       },
-      
       "query_rpt_year": {
         "in": "query",
         "name": "rpt_year",
@@ -558,23 +688,29 @@
         },
         "description": "申報年度"
       },
-      
       "query_rpt_num": {
         "in": "query",
         "name": "rpt_num",
         "schema": {
           "type": "string",
           "enum": [
-            '001','002','003','004'
-            ,'005','006','007','008'
-            ,'009','010','011','012'
+            "001",
+            "002",
+            "003",
+            "004",
+            "005",
+            "006",
+            "007",
+            "008",
+            "009",
+            "010",
+            "011",
+            "012"
           ]
         },
         "description": "申報期數 (必須與申報年度合併使用)"
       },
-      
       "offsetParam": {
-        # <-- Arbitrary name for the definition that will be used to refer to it. # Not necessarily the same as the parameter name.
         "in": "query",
         "name": "offset",
         "required": false,
@@ -583,8 +719,7 @@
           "minimum": 0
         },
         "description": "分頁參數 - 位移量 : 這參數表示要跳過幾筆資料."
-      }, 
-      
+      },
       "limitParam": {
         "in": "query",
         "name": "limit",
@@ -593,35 +728,30 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 50,
-          "default": 20,
+          "default": 20
         },
         "description": "分頁參數 - 筆數 : 這參數表示要回傳幾筆資料."
       }
-    }, #end parameters
-    
-    
+    },
     "schemas": {
-      
       "JWE_REQUEST": {
         "title": "JWE 需求訊息",
         "type": "object",
         "description": "JWE request message.",
         "properties": {
-          "enc_data" : {
+          "enc_data": {
             "type": "string",
             "description": "JWE 加密訊息",
-            "example": "eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..OfzsKnjwT_kERUIZ.8FxP908nSr6ANbZa.meckSn-YS01yg_2AWxANoA",
+            "example": "eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..OfzsKnjwT_kERUIZ.8FxP908nSr6ANbZa.meckSn-YS01yg_2AWxANoA"
           }
         }
       },
-      
       "JWE_RESPONSE": {
         "title": "JWE 回應訊息",
         "type": "string",
         "description": "JWE response message.",
-        "example": "eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..OfzsKnjwT_kERUIZ.8FxP908nSr6ANbZa.meckSn-YS01yg_2AWxANoA",
+        "example": "eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..OfzsKnjwT_kERUIZ.8FxP908nSr6ANbZa.meckSn-YS01yg_2AWxANoA"
       },
-      
       "ERROR_RESPONSE": {
         "title": "錯誤回傳訊息",
         "type": "object",
@@ -635,10 +765,9 @@
             "type": "string",
             "example": "自表檢核失敗",
             "description": "處理結果訊息"
-          },
+          }
         }
       },
-      
       "DECL_FORM_STATUS_GET_RESPONSE_PAYLOAD": {
         "title": "查詢報表申報狀態的查詢結果 : /decl/form/status : GET_RESPONSE_PAYLOAD",
         "type": "object",
@@ -660,7 +789,6 @@
           }
         }
       },
-      
       "DECL_FORM_APPLY_GET_RESPONSE_PAYLOAD": {
         "title": "查詢報表資料的查詢結果 : GET_RESPONSE_PAYLOAD",
         "type": "object",
@@ -671,44 +799,42 @@
               "forms": {
                 "type": "object",
                 "properties": {
-                  "apply_info":{
+                  "apply_info": {
                     "$ref": "#/components/schemas/APPLY_INFO_FOR_RESPONSE"
                   },
                   "form_data": {
                     "$ref": "#/components/schemas/FORM_DATA_FOR_RESPONSE"
-                  },
+                  }
                 }
-              },
+              }
             }
           }
         }
       },
-      
       "DECL_FORM_APPLY_POST_REQUEST_PAYLOAD": {
         "title": "上傳報表資料的需求內容 : POST_REQUEST_PAYLOAD",
         "type": "object",
         "properties": {
-          "postBody":{
+          "postBody": {
             "description": "上傳內容",
             "type": "object",
             "properties": {
-              "form" : {
+              "form": {
                 "description": "報表內容",
                 "type": "object",
                 "properties": {
-                  "apply_info":{
+                  "apply_info": {
                     "$ref": "#/components/schemas/APPLY_INFO_FOR_REQUEST"
                   },
                   "form_data": {
                     "$ref": "#/components/schemas/FORM_DATA_FOR_REQUEST"
-                  },    
+                  }
                 }
-              },
+              }
             }
-          },
+          }
         }
       },
-      
       "DECL_FORM_APPLY_POST_RESPONSE_PAYLOAD": {
         "title": "上傳報表資料的處理結果 : POST_RESPONSE_PAYLOAD",
         "type": "object",
@@ -718,7 +844,6 @@
           }
         }
       },
-      
       "META_FORM_GET_REQUEST_PAYLOAD": {
         "title": "查詢報表欄位定義的查詢結果 : GET_REQUEST_PAYLOAD",
         "type": "object",
@@ -728,13 +853,12 @@
             "properties": {
               "meta": {
                 "$ref": "#/components/schemas/FORM_META"
-              },
+              }
             }
           }
         }
       },
-      
-       "PAGING_INFO": {
+      "PAGING_INFO": {
         "title": "查詢結果分頁資訊",
         "type": "object",
         "properties": {
@@ -752,10 +876,9 @@
             "type": "integer",
             "description": "總筆數",
             "example": "63"
-          },
+          }
         }
-       },
-      
+      },
       "FORM_STATUS": {
         "title": "查詢報表資料定義檔",
         "type": "object",
@@ -768,7 +891,13 @@
           "rpt_cycle": {
             "type": "string",
             "description": "申報周期",
-            "enum": ["M", "Q", "H", "Y","O"]
+            "enum": [
+              "M",
+              "Q",
+              "H",
+              "Y",
+              "O"
+            ]
           },
           "rpt_ver": {
             "type": "string",
@@ -809,10 +938,9 @@
             "type": "string",
             "description": "檢核註記",
             "example": "SPAN_FAIL"
-          },
-        },
+          }
+        }
       },
-      
       "APPLY_INFO_FOR_REQUEST": {
         "title": "申報相關資訊",
         "type": "object",
@@ -826,10 +954,9 @@
             "type": "string",
             "description": "報表上傳使用者姓名",
             "example": "林小姐"
-          },
+          }
         }
       },
-       
       "APPLY_INFO_FOR_RESPONSE": {
         "title": "申報相關資訊",
         "type": "object",
@@ -853,33 +980,32 @@
             "type": "string",
             "description": "檢核註記",
             "example": "SPAN_FAIL"
-          },
+          }
         }
       },
-      
       "FORM_DATA_FOR_REQUEST": {
         "title": "上傳報表資料定義檔",
         "type": "object",
         "properties": {
           "rpt_code": {
             "type": "string",
-            "description": "報表代碼",
+            "description": "報表代碼"
           },
           "apply_date": {
             "type": "string",
-            "description": "申報日期",
+            "description": "申報日期"
           },
           "inst_id": {
             "type": "string",
-            "description": "金融機構代碼",
+            "description": "金融機構代碼"
           },
           "rpt_year": {
             "type": "integer",
-            "description": "報表年",
+            "description": "報表年"
           },
           "rpt_num": {
             "type": "integer",
-            "description": "報表期",
+            "description": "報表期"
           },
           "tabs": {
             "type": "array",
@@ -890,34 +1016,33 @@
           }
         }
       },
-      
       "FORM_DATA_FOR_RESPONSE": {
         "title": "查詢報表資料定義檔",
         "type": "object",
         "properties": {
           "rpt_code": {
             "type": "string",
-            "description": "報表代碼",
+            "description": "報表代碼"
           },
           "rpt_ver": {
             "type": "string",
-            "description": "申報版本",
+            "description": "申報版本"
           },
           "apply_date": {
             "type": "string",
-            "description": "申報日期",
+            "description": "申報日期"
           },
           "inst_id": {
             "type": "string",
-            "description": "金融機構代碼",
+            "description": "金融機構代碼"
           },
           "rpt_year": {
             "type": "integer",
-            "description": "報表年",
+            "description": "報表年"
           },
           "rpt_num": {
             "type": "integer",
-            "description": "報表期",
+            "description": "報表期"
           },
           "tabs": {
             "type": "array",
@@ -928,54 +1053,57 @@
           }
         }
       },
-      
       "FORM_DATA_FOR_APPLY_RESPONSE": {
         "title": "上傳報表資料回應結果資料定義檔",
         "type": "object",
         "properties": {
           "rpt_code": {
             "type": "string",
-            "description": "報表代碼",
+            "description": "報表代碼"
           },
           "rpt_ver": {
             "type": "string",
-            "description": "申報版本",
+            "description": "申報版本"
           },
-           "apply_date": {
+          "apply_date": {
             "type": "string",
-            "description": "申報日期",
+            "description": "申報日期"
           },
           "rpt_year": {
             "type": "integer",
-            "description": "報表年",
+            "description": "報表年"
           },
           "rpt_num": {
             "type": "integer",
-            "description": "報表期",
+            "description": "報表期"
           },
           "apply_status": {
             "type": "string",
-            "description": "申報狀態",
-          },
+            "description": "申報狀態"
+          }
         }
       },
-      
       "FORM_TABLE_DATA": {
         "title": "報表表格資料定義檔",
         "type": "object",
         "properties": {
           "tab_code": {
             "type": "string",
-            "description": "表格代碼",
+            "description": "表格代碼"
           },
           "tab_type": {
             "type": "string",
             "description": "表格種類",
-            "enum": ["CODE", "SEQ", "SEQ_FIX", "MIX"]
+            "enum": [
+              "CODE",
+              "SEQ",
+              "SEQ_FIX",
+              "MIX"
+            ]
           },
           "tab_row_count": {
             "type": "integer",
-            "description": "表格資料列數",
+            "description": "表格資料列數"
           },
           "datas": {
             "type": "array",
@@ -983,14 +1111,29 @@
             "items": {
               "type": "object",
               "properties": {
-                "col_name": {"type": "string", "description": "欄位名稱"},
-                "data_group": {"type": "string", "description": "欄位資料群組"},
-                "data_code": {"type": "string", "description": "欄位資料代碼"},
-                "data": {"type": "string", "description": "欄位資料"},
-                "row_no": {"type": "string", "description": "欄位列號"},
+                "col_name": {
+                  "type": "string",
+                  "description": "欄位名稱"
+                },
+                "data_group": {
+                  "type": "string",
+                  "description": "欄位資料群組"
+                },
+                "data_code": {
+                  "type": "string",
+                  "description": "欄位資料代碼"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "欄位資料"
+                },
+                "row_no": {
+                  "type": "string",
+                  "description": "欄位列號"
+                }
               }
             }
-          }, #end datas
+          },
           "appxs": {
             "type": "array",
             "description": "欄位資料",
@@ -999,12 +1142,17 @@
               "properties": {
                 "appx_code": {
                   "type": "string",
-                  "description": "表格附表代碼",
+                  "description": "表格附表代碼"
                 },
                 "appx_type": {
                   "type": "string",
                   "description": "表格附表種類",
-                  "enum": ["CODE", "SEQ", "SEQ_FIX", "MIX"]
+                  "enum": [
+                    "CODE",
+                    "SEQ",
+                    "SEQ_FIX",
+                    "MIX"
+                  ]
                 },
                 "datas": {
                   "type": "array",
@@ -1012,57 +1160,80 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "col_name": {"type": "string", "description": "欄位名稱"},
-                      "data_group": {"type": "string", "description": "欄位資料群組"},
-                      "data_code": {"type": "string", "description": "欄位資料代碼"},
-                      "data": {"type": "string", "description": "欄位資料"},
-                      "row_no": {"type": "string", "description": "欄位列號"},
+                      "col_name": {
+                        "type": "string",
+                        "description": "欄位名稱"
+                      },
+                      "data_group": {
+                        "type": "string",
+                        "description": "欄位資料群組"
+                      },
+                      "data_code": {
+                        "type": "string",
+                        "description": "欄位資料代碼"
+                      },
+                      "data": {
+                        "type": "string",
+                        "description": "欄位資料"
+                      },
+                      "row_no": {
+                        "type": "string",
+                        "description": "欄位列號"
+                      }
                     }
                   }
-                }, #end datas
+                }
               }
-            },
-          }#end appxs
+            }
+          }
         }
-      }, #end FORM_DATE
-      
+      },
       "FORM_META": {
         "title": "報表格式資料定義檔",
         "type": "object",
         "properties": {
           "rpt_code": {
             "type": "string",
-            "description": "報表代碼",
+            "description": "報表代碼"
           },
           "rpt_name": {
             "type": "string",
-            "description": "報表名稱",
+            "description": "報表名稱"
           },
           "rpt_currency": {
             "type": "string",
-            "description": "報表貨幣別",
+            "description": "報表貨幣別"
           },
           "rpt_unit": {
             "type": "string",
-            "description": "報表計量及單位",
+            "description": "報表計量及單位"
           },
           "rpt_ver": {
             "type": "string",
-            "description": "報表版本號",
+            "description": "報表版本號"
           },
           "rpt_ver_last": {
             "type": "string",
-            "description": "報表最新版本號",
+            "description": "報表最新版本號"
           },
           "rpt_cycle": {
             "type": "string",
             "description": "申報周期",
-            "enum": ["M", "O", "H", "Y", "O"]
+            "enum": [
+              "M",
+              "O",
+              "H",
+              "Y",
+              "O"
+            ]
           },
           "release_status": {
             "type": "string",
             "description": "報表發行狀態",
-            "enum": ["發行", "廢止"]
+            "enum": [
+              "發行",
+              "廢止"
+            ]
           },
           "release_date": {
             "type": "string",
@@ -1076,24 +1247,29 @@
               "properties": {
                 "tab_code": {
                   "type": "string",
-                  "description": "表格代碼",
+                  "description": "表格代碼"
                 },
                 "tab_name": {
                   "type": "string",
-                  "description": "表格名稱",
+                  "description": "表格名稱"
                 },
                 "tab_type": {
                   "type": "string",
                   "description": "表格種類",
-                  "enum": ["CODE", "SEQ", "SEQ_FIX", "MIX"]
+                  "enum": [
+                    "CODE",
+                    "SEQ",
+                    "SEQ_FIX",
+                    "MIX"
+                  ]
                 },
                 "tab_row_count": {
                   "type": "integer",
-                  "description": "表格資料列數",
+                  "description": "表格資料列數"
                 },
                 "tab_sort_no": {
                   "type": "integer",
-                  "description": "排序號",
+                  "description": "排序號"
                 },
                 "tab_cols": {
                   "type": "array",
@@ -1101,24 +1277,59 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "col_name": {"type": "string", "description": "欄位名稱"},
-                      "col_no": {"type": "string", "description": "欄位排序號"},
-                      "col_type": {"type": "string", "description": "欄位種類", "enum": ["LABEL", "INPUT"]},
-                      "data_code": {"type": "string", "description": "資料代碼"},
-                      "data_group": {"type": "string", "description": "資料分組"},
-                      "data_length": {"type": "string", "description": "資料長度"},
-                      "input_type": {
-                        "type": "string", 
-                        "description": "輸入欄位類型",
-                        "enum": ["TEXT", "NUMBER", "DATE"]
+                      "col_name": {
+                        "type": "string",
+                        "description": "欄位名稱"
                       },
-                      "is_req": {"type": "boolean", "description": "是否為必填欄位"},
-                      "row_no": {"type": "string", "description": "欄位列號"},
-                      "text_content": {"type": "string", "description": "文字內容"},
+                      "col_no": {
+                        "type": "string",
+                        "description": "欄位排序號"
+                      },
+                      "col_type": {
+                        "type": "string",
+                        "description": "欄位種類",
+                        "enum": [
+                          "LABEL",
+                          "INPUT"
+                        ]
+                      },
+                      "data_code": {
+                        "type": "string",
+                        "description": "資料代碼"
+                      },
+                      "data_group": {
+                        "type": "string",
+                        "description": "資料分組"
+                      },
+                      "data_length": {
+                        "type": "string",
+                        "description": "資料長度"
+                      },
+                      "input_type": {
+                        "type": "string",
+                        "description": "輸入欄位類型",
+                        "enum": [
+                          "TEXT",
+                          "NUMBER",
+                          "DATE"
+                        ]
+                      },
+                      "is_req": {
+                        "type": "boolean",
+                        "description": "是否為必填欄位"
+                      },
+                      "row_no": {
+                        "type": "string",
+                        "description": "欄位列號"
+                      },
+                      "text_content": {
+                        "type": "string",
+                        "description": "文字內容"
+                      }
                     }
                   }
-                }, #end tab_cols
-                "appxs" : {
+                },
+                "appxs": {
                   "type": "array",
                   "description": "表格附表定義資料",
                   "items": {
@@ -1126,16 +1337,21 @@
                     "properties": {
                       "appx_code": {
                         "type": "string",
-                        "description": "表格附表代碼",
+                        "description": "表格附表代碼"
                       },
                       "appx_name": {
                         "type": "string",
-                        "description": "表格附表名稱",
+                        "description": "表格附表名稱"
                       },
                       "appx_type": {
                         "type": "string",
                         "description": "表格附表種類",
-                        "enum": ["CODE", "SEQ", "SEQ_FIX", "MIX"]
+                        "enum": [
+                          "CODE",
+                          "SEQ",
+                          "SEQ_FIX",
+                          "MIX"
+                        ]
                       },
                       "appx_cols": {
                         "type": "array",
@@ -1143,71 +1359,143 @@
                         "items": {
                           "type": "object",
                           "properties": {
-                            "col_name": {"type": "string", "description": "欄位名稱"},
-                            "col_no": {"type": "string", "description": "欄位排序號"},
-                            "col_type": {"type": "string", "description": "欄位種類", "enum": ["LABEL", "INPUT"]},
-                            "data_code": {"type": "string", "description": "資料代碼"},
-                            "data_group": {"type": "string", "description": "資料分組"},
-                            "data_length": {"type": "string", "description": "資料長度"},
-                            "input_type": {
-                              "type": "string", 
-                              "description": "輸入欄位類型",
-                              "enum": ["TEXT", "NUMBER", "DATE"]
+                            "col_name": {
+                              "type": "string",
+                              "description": "欄位名稱"
                             },
-                            "is_req": {"type": "boolean", "description": "是否為必填欄位"},
-                            "row_no": {"type": "string", "description": "欄位列號"},
-                            "text_content": {"type": "string", "description": "文字內容"},
+                            "col_no": {
+                              "type": "string",
+                              "description": "欄位排序號"
+                            },
+                            "col_type": {
+                              "type": "string",
+                              "description": "欄位種類",
+                              "enum": [
+                                "LABEL",
+                                "INPUT"
+                              ]
+                            },
+                            "data_code": {
+                              "type": "string",
+                              "description": "資料代碼"
+                            },
+                            "data_group": {
+                              "type": "string",
+                              "description": "資料分組"
+                            },
+                            "data_length": {
+                              "type": "string",
+                              "description": "資料長度"
+                            },
+                            "input_type": {
+                              "type": "string",
+                              "description": "輸入欄位類型",
+                              "enum": [
+                                "TEXT",
+                                "NUMBER",
+                                "DATE"
+                              ]
+                            },
+                            "is_req": {
+                              "type": "boolean",
+                              "description": "是否為必填欄位"
+                            },
+                            "row_no": {
+                              "type": "string",
+                              "description": "欄位列號"
+                            },
+                            "text_content": {
+                              "type": "string",
+                              "description": "文字內容"
+                            }
                           }
-                        } #end items
-                      }, # end tab_cols
+                        }
+                      },
                       "appx_head": {
                         "type": "array",
                         "description": "附表表頭定義",
                         "items": {
                           "type": "object",
                           "properties": {
-                            "chk_code": {"type": "string", "description": "檢核代碼"},
-                            "col_name": {"type": "string", "description": "欄位名稱"},
-                            "col_title": {"type": "string", "description": "欄位標題"},
-                            "sort_no": {"type": "number", "description": "排序號"},
-                            "data_length": {"type": "string", "description": "資料長度"},
-                            "input_type": {
-                              "type": "string", 
-                              "description": "輸入欄位類型",
-                              "enum": ["TEXT", "NUMBER", "DATE"]
+                            "chk_code": {
+                              "type": "string",
+                              "description": "檢核代碼"
                             },
+                            "col_name": {
+                              "type": "string",
+                              "description": "欄位名稱"
+                            },
+                            "col_title": {
+                              "type": "string",
+                              "description": "欄位標題"
+                            },
+                            "sort_no": {
+                              "type": "number",
+                              "description": "排序號"
+                            },
+                            "data_length": {
+                              "type": "string",
+                              "description": "資料長度"
+                            },
+                            "input_type": {
+                              "type": "string",
+                              "description": "輸入欄位類型",
+                              "enum": [
+                                "TEXT",
+                                "NUMBER",
+                                "DATE"
+                              ]
+                            }
                           }
                         }
-                      } #end appx_head
+                      }
                     }
-                  } #end items
-                }, #end appxs
+                  }
+                },
                 "tab_head": {
                   "type": "array",
                   "description": "表格表頭定義",
                   "items": {
                     "type": "object",
                     "properties": {
-                      "chk_code": {"type": "string", "description": "檢核代碼"},
-                      "col_name": {"type": "string", "description": "欄位名稱"},
-                      "col_title": {"type": "string", "description": "欄位標題"},
-                      "sort_no": {"type": "number", "description": "排序號"},
-                      "data_length": {"type": "string", "description": "資料長度"},
-                      "input_type": {
-                        "type": "string", 
-                        "description": "輸入欄位類型",
-                        "enum": ["TEXT", "NUMBER", "DATE"]
+                      "chk_code": {
+                        "type": "string",
+                        "description": "檢核代碼"
                       },
+                      "col_name": {
+                        "type": "string",
+                        "description": "欄位名稱"
+                      },
+                      "col_title": {
+                        "type": "string",
+                        "description": "欄位標題"
+                      },
+                      "sort_no": {
+                        "type": "number",
+                        "description": "排序號"
+                      },
+                      "data_length": {
+                        "type": "string",
+                        "description": "資料長度"
+                      },
+                      "input_type": {
+                        "type": "string",
+                        "description": "輸入欄位類型",
+                        "enum": [
+                          "TEXT",
+                          "NUMBER",
+                          "DATE"
+                        ]
+                      }
                     }
                   }
-                } #end tab_head
+                }
               }
             }
-          }, #end tables
-        } #end properties
-      }, #end FORM_META
-    }, 
-    
+          }
+        }
+      }
+    },
     "responses": {
       "Created": {
         "description": "Created."
@@ -1223,9 +1511,8 @@
       },
       "UnexpectedError": {
         "description": "Unexpected error."
-      },
-    }, #end responses
-    
+      }
+    },
     "securitySchemes": {
       "oAuth2ClientCredentials": {
         "type": "oauth2",
@@ -1233,15 +1520,14 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "http://localhost:8081/v1/oauth/token",
-            "scopes": {} # Getty Images does not use scopes
+            "scopes": {}
           }
         }
       },
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
-      },
-    }, #end securitySchemes
-  }, #end component
-  
+      }
+    }
+  }
 }
